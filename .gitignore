@@ -46,6 +46,7 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+git config --global core.autocrlf true
 
 # Unity3D generated meta files
 *.pidb.meta

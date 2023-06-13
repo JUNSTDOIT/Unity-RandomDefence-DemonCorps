@@ -11,6 +11,13 @@ public class MonHealth : MonoBehaviour
     float _hp;
     bool _isDie = false;
     public bool _IsDie => _isDie;
+    public void SetHP(int hp)
+    {
+        _hp = hp;
+        _isDie = false;
+        GetComponent<Animator>().SetBool("Die", false);
+        GetComponent<BoxCollider>().enabled = true;
+    }
     public void Damage(float dmg) => _hp -= dmg;
     void Start()
     {
@@ -19,16 +26,14 @@ public class MonHealth : MonoBehaviour
     void Die()
     {
         _isDie = true;
-        GetComponent<Animator>().SetTrigger("Die");
+        GetComponent<Animator>().SetBool("Die", true);
         GetComponent<BoxCollider>().enabled = false;
+        UIManager.Instance.GetMoney();
     }
     void Update()
     {
         _sliderHP.value = _hp;
-        if (_hp <= 0)
-        {
+        if (_hp <= 0 && !_isDie)
             Die();
-            Destroy(gameObject, 1f);
-        }
     }
 }

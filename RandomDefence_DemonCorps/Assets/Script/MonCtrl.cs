@@ -17,9 +17,43 @@ public class MonCtrl : MonoBehaviour
     [Header("[ 다음 이동 타겟 웨이 포인트 인덱스..]"), SerializeField]
     int _nextWayptIdx = 1;
 
-    MonHealth _monHP;
+    float _time = 0f;
 
-    void Start()
+    MonHealth _monHP;
+    MonsterManager.MonsterType _type;
+    public MonsterManager.MonsterType _Type { get { return _type; } }
+
+    public void InitMonster(MonsterManager.MonsterType type) // 몬스터 타입별 스텟
+    {
+        _type = type;
+        if (((int)type + 1) == 1) // 몬스터1
+        {
+            _moveSpeed = 10f;
+            _monHP.SetHP(10);
+        }
+        if (((int)type + 1) == 2) // 몬스터2
+        {
+            _moveSpeed = 10f;
+            _monHP.SetHP(40);
+        }
+        if (((int)type + 1) == 3) // 몬스터3
+        {
+            _moveSpeed = 10f;
+            _monHP.SetHP(160);
+        }
+        if (((int)type + 1) == 4) // 몬스터4
+        {
+            _moveSpeed = 10f;
+            _monHP.SetHP(320);
+        }
+        if (((int)type + 1) == 5) // 몬스터5
+        {
+            _moveSpeed = 10f;
+            _monHP.SetHP(640);
+        }
+    }
+
+    void Awake()
     {
         _wayPts = GameObject.Find("Way Points").GetComponentsInChildren<Transform>();
         _monHP = GetComponent<MonHealth>();
@@ -42,15 +76,25 @@ public class MonCtrl : MonoBehaviour
     }
     void Update()
     {
-        if(!_monHP._IsDie)
+        if (!_monHP._IsDie)
             Move_By_WayPts();
+        else
+        {
+            _time += Time.deltaTime;
+            if (_time >= 1f)
+            {
+                _nextWayptIdx = 1;
+                _time = 0f;
+                MonsterManager.Instance.RemoveMonster(this);
+            }
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("WayPoint"))
         {
             _nextWayptIdx++;
-            Debug.Log("test");
+            //Debug.Log("test");
             if (_nextWayptIdx >= 5)
                 _nextWayptIdx = 1;
         }

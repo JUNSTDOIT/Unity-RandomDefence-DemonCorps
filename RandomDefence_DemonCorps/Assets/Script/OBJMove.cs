@@ -46,7 +46,7 @@ public class OBJMove : MonoBehaviour
             _isMove = false;
             _attack.enabled = true;
         }
-        Debug.Log(dist);
+        //Debug.Log(dist);
         if (_isMove && !_isDragging)
         {
             //transform.position = Vector3.Lerp(transform.position, _curPosition, 0.005f);

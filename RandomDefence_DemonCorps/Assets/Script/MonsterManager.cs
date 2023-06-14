@@ -21,6 +21,7 @@ public class MonsterManager : SingletonMonoBehaviour<MonsterManager>
     {
         mon.gameObject.SetActive(false);
         _monPool[mon._Type].Set(mon);
+        UIManager.Instance.MonCount();
     }
     protected override void OnStart()
     {

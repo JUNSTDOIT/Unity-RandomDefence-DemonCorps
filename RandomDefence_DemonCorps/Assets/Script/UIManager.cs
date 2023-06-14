@@ -19,9 +19,9 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     [SerializeField]
     Button _btnSummon;
     [SerializeField]
-    Button _btnSale;
+    Button _btnSell;
     [SerializeField]
-    TMP_Dropdown _dropSaleSelect;
+    TMP_Dropdown _dropSellSelect;
     [SerializeField]
     Button _btnReinforcement;
     [SerializeField]
@@ -32,6 +32,15 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     int _randSpawn = 0;
     GameObject[] _units;
     int _money = 30;
+    List<string> _dropOption = new List<string>();
+    int _reinforcementLv = 0;
+    int _reinforcementCost = 1;
+    OBJAttack[] _fieldUnits;
+    int _wave = 0;
+    float _waveTime = 10f;
+    int _monCount = 0;
+    public void MonCount() => _monCount++;
+    public int _ReinforcementLv => _reinforcementLv;
 
     public void GetMoney()
     {
@@ -42,18 +51,26 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
         _textWarning.enabled = false;
         _btnSummon.onClick.AddListener(RandomSpawn);
         _units = Resources.LoadAll<GameObject>("Prefab/Unit/");
-        for(int i = 0; i < _units.Length; i++)
-        {
-            Debug.Log(_units[i].name);
-        }
+        _dropSellSelect.ClearOptions();
+        _dropOption.Add("일반\n1");
+        _dropOption.Add("고급\n5");
+        _dropOption.Add("희귀\n15");
+        _dropOption.Add("영웅\n30");
+        _dropOption.Add("전설\n100");
+        _dropOption.Add("신화\n500");
+        _dropOption.Add("신\n999");
+        _dropSellSelect.AddOptions(_dropOption);
+        _btnReinforcement.onClick.AddListener(Reinforcement);
+        _btnSell.onClick.AddListener(Sell);
     }
 
 
     void Update()
     {
         RunTime();
-        FindMonCount();
+        GameResult();
         Money();
+        Wave();
     }
     void RunTime()
     {
@@ -64,17 +81,6 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
         {
             _runTimeSec = 0f;
             _runTimeMin++;
-        }
-    }
-    void FindMonCount()
-    {
-        _mons = FindObjectsOfType<MonCtrl>();
-        if (_mons != null && _mons.Length < 60)
-            _textWarning.enabled = false;
-        else
-        {
-            _textWarning.enabled = true;
-            //Debug.Log(_mons.Length);
         }
     }
     void RandomSpawn()
@@ -144,5 +150,124 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     void Money()
     {
         _textMoney.text = "소지금\n" + _money.ToString();
+    }
+    void Reinforcement()
+    {
+        if (_money < _reinforcementCost)
+            return;
+        else
+        {
+            _money -= _reinforcementCost;
+            _reinforcementLv++;
+            _reinforcementCost += 2;
+            _btnReinforcement.GetComponentInChildren<TMP_Text>().text = "+" + _reinforcementLv.ToString() + "\n강화\n" + _reinforcementCost.ToString();
+        }
+    }
+    void Sell()
+    {
+        _fieldUnits = FindObjectsOfType<OBJAttack>();
+        if(_fieldUnits != null)
+        {
+            for (int i = 0; i < _fieldUnits.Length; i++)
+            {
+                var results = _fieldUnits[i].name.Split('.');
+                int type = int.Parse(results[0]);
+                if(type == 1 && _dropSellSelect.value == 0)
+                {
+                    Destroy(_fieldUnits[i].gameObject);
+                    _money += 1;
+                    break;
+                }
+                else if(type == 2 && _dropSellSelect.value == 1)
+                {
+                    Destroy(_fieldUnits[i].gameObject);
+                    _money += 5;
+                    break;
+                }
+                else if (type == 3 && _dropSellSelect.value == 1)
+                {
+                    Destroy(_fieldUnits[i].gameObject);
+                    _money += 5;
+                    break;
+                }
+                else if (type == 4 && _dropSellSelect.value == 2)
+                {
+                    Destroy(_fieldUnits[i].gameObject);
+                    _money += 15;
+                    break;
+                }
+                else if (type == 5 && _dropSellSelect.value == 3)
+                {
+                    Destroy(_fieldUnits[i].gameObject);
+                    _money += 30;
+                    break;
+                }
+                else if (type == 6 && _dropSellSelect.value == 4)
+                {
+                    Destroy(_fieldUnits[i].gameObject);
+                    _money += 100;
+                    break;
+                }
+                else if (type == 7 && _dropSellSelect.value == 5)
+                {
+                    Destroy(_fieldUnits[i].gameObject);
+                    _money += 500;
+                    break;
+                }
+                else if (type == 8 && _dropSellSelect.value == 5)
+                {
+                    Destroy(_fieldUnits[i].gameObject);
+                    _money += 500;
+                    break;
+                }
+                else if (type == 9 && _dropSellSelect.value == 6)
+                {
+                    Destroy(_fieldUnits[i].gameObject);
+                    _money += 999;
+                    break;
+                }
+            }
+        }
+    }
+    void Wave()
+    {
+        if (_wave == 0)
+            _waveTime -= Time.deltaTime;
+        else
+        {
+            _waveTime -= Time.deltaTime;
+            _textWaveTime.text = ((int)_waveTime).ToString();
+        }
+        if (_waveTime <= 0f)
+        {
+            _wave++;
+            _waveTime = 60f;
+            _textWave.text = _wave.ToString();
+        }
+    }
+    void GameResult()
+    {
+        _mons = FindObjectsOfType<MonCtrl>();
+        if (_mons != null && _mons.Length < 60)
+            _textWarning.enabled = false;
+        else
+        {
+            _textWarning.enabled = true;
+        }
+        if (_mons != null && _mons.Length > 100)
+        {
+            Debug.Log("게임오버");
+            Time.timeScale = 0;
+        }
+        else if (_wave == 6)
+        {
+            Debug.Log("게임오버");
+            Time.timeScale = 0;
+        }
+        else if (_wave == 5 && _monCount == 500)
+        {
+            Debug.Log("게임승리");
+            Time.timeScale = 0;
+        }
     }
 }

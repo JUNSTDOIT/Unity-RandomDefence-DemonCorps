@@ -1347,8 +1347,8 @@ MonoBehaviour:
   _textWarning: {fileID: 1448101643}
   _textMoney: {fileID: 590259255}
   _btnSummon: {fileID: 778388863}
-  _btnSale: {fileID: 995637505}
-  _dropSaleSelect: {fileID: 996664756}
+  _btnSell: {fileID: 995637505}
+  _dropSellSelect: {fileID: 996664756}
   _btnReinforcement: {fileID: 1154157765}
   _btnSetting: {fileID: 625502173}
 --- !u!1 &737202064
@@ -1984,7 +1984,7 @@ GameObject:
   - component: {fileID: 995637506}
   - component: {fileID: 995637505}
   m_Layer: 5
-  m_Name: Button -  Sale
+  m_Name: Button -  Sell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2105,7 +2105,7 @@ GameObject:
   - component: {fileID: 996664757}
   - component: {fileID: 996664756}
   m_Layer: 5
-  m_Name: Dropdown - SaleSelect
+  m_Name: Dropdown - SellSelect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3168,7 +3168,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC18C\uD658"
+  m_text: "\uC18C\uD658\n10"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 08db0d83605d71840910eaed579b3458, type: 2}
   m_sharedMaterial: {fileID: -5858041623072230187, guid: 08db0d83605d71840910eaed579b3458, type: 2}
@@ -3781,7 +3781,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uAC15\uD654"
+  m_text: "+0\n\uAC15\uD654\n1"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 08db0d83605d71840910eaed579b3458, type: 2}
   m_sharedMaterial: {fileID: -5858041623072230187, guid: 08db0d83605d71840910eaed579b3458, type: 2}

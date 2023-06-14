@@ -19,12 +19,6 @@ public class ProjectileController : MonoBehaviour
     GameObject[] _detached;
     Transform _target;
     float _dmg;
-    OBJAttack.ProjectileType _type; // ProjectileType을 가져온다.
-    public OBJAttack.ProjectileType _Type { get { return _type; } }
-    public void InitProjectile(OBJAttack.ProjectileType type)
-    {
-        _type = type;
-    }
     public void Dmg(float dmg) => _dmg = dmg;
 
     void Start()
@@ -48,7 +42,6 @@ public class ProjectileController : MonoBehaviour
                 Destroy(flashInstance, flashPsParts.main.duration);
             }
         }
-        Destroy(gameObject, 5);
     }
     public void Target(Transform target)
     {
@@ -63,7 +56,11 @@ public class ProjectileController : MonoBehaviour
             transform.LookAt(_target);
         }
         else
-            Destroy(gameObject);
+        {
+            _target = null;
+            gameObject.GetComponentInParent<OBJAttack>().RemoveProjectile(this);
+        }
+            
     }
 
     private void OnTriggerEnter(Collider other)
@@ -100,7 +97,8 @@ public class ProjectileController : MonoBehaviour
                 }
             }
             other.GetComponent<MonHealth>().Damage(_dmg);
-            Destroy(gameObject);
+            _target = null;
+            gameObject.GetComponentInParent<OBJAttack>().RemoveProjectile(this);
         }
     }
 }

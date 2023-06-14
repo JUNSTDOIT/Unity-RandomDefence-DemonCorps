@@ -27,16 +27,28 @@ public class OBJAttack : MonoBehaviour
     float _time = 0f;
     [Header("공격 속도"), SerializeField]
     float _attackSpeed = 0.25f;
+    [SerializeField]
+    public ProjectileType _projectileType;
+    float _curDmg;
 
-    Dictionary<ProjectileType, GameObjectPool<ProjectileController>> _bulletPool = new Dictionary<ProjectileType, GameObjectPool<ProjectileController>>();
-    public void RemoveProjectile(ProjectileController projectile) // Projectile 제거 함수
+    Dictionary<string, GameObjectPool<ProjectileController>> _projectilePool = new Dictionary<string, GameObjectPool<ProjectileController>>();
+    public void RemoveProjectile(ProjectileController projectile)
     {
-        projectile.gameObject.SetActive(false); // Projectile 비활성화
-        _bulletPool[projectile._Type].Set(projectile); // projectile을  m_projectilePool에 환원
+        projectile.gameObject.SetActive(false);
+        _projectilePool[projectile.name].Set(projectile);
     }
     void Start()
     {
-
+        var pool = new GameObjectPool<ProjectileController>(3, () =>
+        {
+            var obj = Instantiate(_bullet);
+            obj.SetActive(false);
+            obj.transform.SetParent(transform);
+            var projectile = obj.GetComponent<ProjectileController>();
+            return projectile;
+        });
+        _projectilePool.Add(_bullet.name + "(Clone)", pool);
+        _curDmg = _dmg;
     }
 
     void Update()
@@ -47,13 +59,13 @@ public class OBJAttack : MonoBehaviour
             _time += Time.deltaTime;
             if(_time > _attackSpeed)
             {
+                _dmg = _curDmg + _curDmg * 0.125f * UIManager.Instance._ReinforcementLv;
                 transform.LookAt(cols[0].transform);
-                GameObject bullet = Instantiate(_bullet);
+                GameObject bullet = CreateProjectile().gameObject;
                 bullet.GetComponent<ProjectileController>().Target(cols[0].transform);
                 bullet.GetComponent<ProjectileController>().Dmg(_dmg);
                 bullet.transform.position = transform.position;
                 bullet.transform.rotation = transform.rotation;
-                Destroy(bullet, 2f);
                 _time = 0;
             }
         }
@@ -64,5 +76,11 @@ public class OBJAttack : MonoBehaviour
             bullet.transform.rotation = transform.rotation;
             Destroy(bullet, 2f);
         }
+    }
+    ProjectileController CreateProjectile()
+    {
+        var projectile = _projectilePool[_bullet.name + "(Clone)"].Get();
+        projectile.gameObject.SetActive(true);
+        return projectile;
     }
 }

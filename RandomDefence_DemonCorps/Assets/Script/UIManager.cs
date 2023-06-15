@@ -24,8 +24,6 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     TMP_Dropdown _dropSellSelect;
     [SerializeField]
     Button _btnReinforcement;
-    [SerializeField]
-    Button _btnSetting;
     float _runTimeSec = 0;
     int _runTimeMin = 0;
     MonCtrl[] _mons;

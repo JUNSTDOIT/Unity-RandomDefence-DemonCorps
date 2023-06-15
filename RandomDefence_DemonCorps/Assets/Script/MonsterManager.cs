@@ -16,7 +16,6 @@ public class MonsterManager : SingletonMonoBehaviour<MonsterManager>
     }
     GameObject[] _monPrefabs;
     Dictionary<MonsterType, GameObjectPool<MonCtrl>> _monPool = new Dictionary<MonsterType, GameObjectPool<MonCtrl>>();
-    int _count = 0;
     public void RemoveMonster(MonCtrl mon)
     {
         mon.gameObject.SetActive(false);

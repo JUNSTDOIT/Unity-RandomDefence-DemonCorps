@@ -81,7 +81,7 @@ public class MonCtrl : MonoBehaviour
         else
         {
             _time += Time.deltaTime;
-            if (_time >= 1f)
+            if (_time >= 0.25f)
             {
                 _nextWayptIdx = 1;
                 _time = 0f;

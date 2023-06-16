@@ -20,6 +20,10 @@ public class OBJAttack : MonoBehaviour
     }
     [SerializeField]
     GameObject _bullet;
+    [SerializeField]
+    Transform _body;
+    [SerializeField]
+    Transform _firePos;
     [Header("기본 공격력"), SerializeField]
     float _dmg;
     [Header("공격 범위"), SerializeField]
@@ -53,28 +57,21 @@ public class OBJAttack : MonoBehaviour
 
     void Update()
     {
-        Collider[] cols = Physics.OverlapSphere(transform.position, _radius, 1 << 3);
+        Collider[] cols = Physics.OverlapSphere(_body.position, _radius, 1 << 3);
         if(cols.Length > 0)
         {
             _time += Time.deltaTime;
             if(_time > _attackSpeed)
             {
                 _dmg = _curDmg + _curDmg * 0.125f * UIManager.Instance._ReinforcementLv;
-                transform.LookAt(cols[0].transform);
+                _body.LookAt(cols[0].transform);
                 GameObject bullet = CreateProjectile().gameObject;
                 bullet.GetComponent<ProjectileController>().Target(cols[0].transform);
                 bullet.GetComponent<ProjectileController>().Dmg(_dmg);
-                bullet.transform.position = transform.position;
-                bullet.transform.rotation = transform.rotation;
+                bullet.transform.position = _firePos.position;
+                bullet.transform.rotation = _firePos.rotation;
                 _time = 0;
             }
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GameObject bullet = Instantiate(_bullet);
-            bullet.transform.position = transform.position;
-            bullet.transform.rotation = transform.rotation;
-            Destroy(bullet, 2f);
         }
     }
     ProjectileController CreateProjectile()

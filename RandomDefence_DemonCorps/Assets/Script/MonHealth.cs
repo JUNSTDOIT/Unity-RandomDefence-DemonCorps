@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class MonHealth : MonoBehaviour
 {
     [SerializeField]
+    GameObject _bloodFX;
+    [SerializeField]
     Slider _sliderHP;
     [SerializeField]
     float _hp;
@@ -17,6 +19,7 @@ public class MonHealth : MonoBehaviour
         _isDie = false;
         GetComponent<Animator>().SetBool("Die", false);
         GetComponent<BoxCollider>().enabled = true;
+        _bloodFX.SetActive(false);
     }
     public void Damage(float dmg) => _hp -= dmg;
     void Start()
@@ -29,6 +32,7 @@ public class MonHealth : MonoBehaviour
         GetComponent<Animator>().SetBool("Die", true);
         GetComponent<BoxCollider>().enabled = false;
         UIManager.Instance.GetMoney();
+        _bloodFX.SetActive(true);
     }
     void Update()
     {

@@ -47,7 +47,7 @@ public class ProjectileController : MonoBehaviour
     {
         _target = target;
     }
-    void FixedUpdate()
+    void Update()
     {
         if (_target != null && _target.gameObject.activeSelf)
         {
@@ -60,7 +60,6 @@ public class ProjectileController : MonoBehaviour
             _target = null;
             gameObject.GetComponentInParent<OBJAttack>().RemoveProjectile(this);
         }
-            
     }
 
     private void OnTriggerEnter(Collider other)

@@ -49,7 +49,7 @@ public class MonCtrl : MonoBehaviour
         if (((int)type + 1) == 5) // ∏ÛΩ∫≈Õ5
         {
             _moveSpeed = 10f;
-            _monHP.SetHP(640);
+            _monHP.SetHP(64000);
         }
     }
 

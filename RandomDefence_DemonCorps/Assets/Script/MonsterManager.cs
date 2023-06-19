@@ -54,8 +54,9 @@ public class MonsterManager : SingletonMonoBehaviour<MonsterManager>
         InvokeRepeating("CreateMon4", 190f, 0.5f);
         Invoke("CencleMon4", 240f);
         //5¶ó
-        InvokeRepeating("CreateMon5", 250f, 0.5f);
-        Invoke("CencleMon5", 300f);
+        //InvokeRepeating("CreateMon5", 250f, 0.5f);
+        //Invoke("CencleMon5", 300f);
+        Invoke("CreateMon5", 250f);
     }
     void CreateMon1()
     {

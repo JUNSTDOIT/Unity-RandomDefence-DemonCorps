@@ -63,7 +63,7 @@ public class OBJAttack : MonoBehaviour
             _time += Time.deltaTime;
             if(_time > _attackSpeed)
             {
-                _dmg = _curDmg + _curDmg * 0.125f * UIManager.Instance._ReinforcementLv;
+                _dmg = _curDmg + _curDmg * 0.25f * UIManager.Instance._ReinforcementLv;
                 _body.LookAt(cols[0].transform);
                 GameObject bullet = CreateProjectile().gameObject;
                 bullet.GetComponent<ProjectileController>().Target(cols[0].transform);

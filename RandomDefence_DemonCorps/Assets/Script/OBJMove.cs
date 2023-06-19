@@ -65,6 +65,10 @@ public class OBJMove : MonoBehaviour
         {
             _attack.enabled = true;
         }
+        if (collision.collider.CompareTag("Player"))
+        {
+            _attack.enabled = true;
+        }
     }
     
     /*

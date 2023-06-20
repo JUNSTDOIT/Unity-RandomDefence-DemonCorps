@@ -147,7 +147,8 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     }
     void Money()
     {
-        _textMoney.text = "소지금\n" + _money.ToString();
+        // "소지금\n" + 
+        _textMoney.text = _money.ToString();
     }
     void Reinforcement()
     {
@@ -158,7 +159,7 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
             _money -= _reinforcementCost;
             _reinforcementLv++;
             _reinforcementCost += 2;
-            _btnReinforcement.GetComponentInChildren<TMP_Text>().text = "+" + _reinforcementLv.ToString() + "\n강화\n" + _reinforcementCost.ToString();
+            _btnReinforcement.GetComponentInChildren<TMP_Text>().text = "x" + (1f + 0.25f * _reinforcementLv).ToString() + "\n강화\n" + _reinforcementCost.ToString();
         }
     }
     void Sell()
@@ -262,7 +263,7 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
             Debug.Log("게임오버");
             Time.timeScale = 0;
         }
-        else if (_wave == 5 && _monCount == 500)
+        else if (_wave == 5 && _monCount == 401)
         {
             Debug.Log("게임승리");
             Time.timeScale = 0;

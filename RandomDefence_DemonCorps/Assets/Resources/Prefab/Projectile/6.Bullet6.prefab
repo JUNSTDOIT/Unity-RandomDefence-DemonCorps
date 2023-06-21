@@ -9674,7 +9674,7 @@ GameObject:
   - component: {fileID: 1872926681942122478}
   - component: {fileID: 1738083958507425911}
   m_Layer: 0
-  m_Name: 6
+  m_Name: 6.Bullet6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13544,7 +13544,7 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 1
+    enabled: 0
     ratio: 1
     light: {fileID: 1845893279311946124}
     randomDistribution: 1

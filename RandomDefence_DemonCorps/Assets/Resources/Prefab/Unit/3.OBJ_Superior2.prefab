@@ -206,7 +206,7 @@ MonoBehaviour:
   _dmg: 3
   _radius: 5
   _attackSpeed: 0.25
-  _projectileType: 0
+  _unitType: -1
 --- !u!1 &4034108735294763846
 GameObject:
   m_ObjectHideFlags: 0

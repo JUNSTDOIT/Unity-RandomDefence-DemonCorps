@@ -4,18 +4,12 @@ using UnityEngine;
 
 public class OBJAttack : MonoBehaviour
 {
-    public enum ProjectileType
+    public enum UnitType
     {
         None = -1,
-        Bullet1,
-        Bullet2,
-        Bullet3,
-        Bullet4,
-        Bullet5,
-        Bullet6,
-        Bullet7,
-        Bullet8,
-        Bullet9,
+        Legend,
+        Myth,
+        God,
         Max
     }
     [SerializeField]
@@ -32,8 +26,14 @@ public class OBJAttack : MonoBehaviour
     [Header("공격 속도"), SerializeField]
     float _attackSpeed = 0.25f;
     [SerializeField]
-    public ProjectileType _projectileType;
+    UnitType _unitType = UnitType.None;
     float _curDmg;
+    GameObject _allAttack;
+    GameObject _slowAttack;
+    GameObject _multiAttack;
+    float _allAttackTime = 0f;
+    float _slowAttackTime = 0f;
+    float _multiAttackTime = 0f;
 
     Dictionary<string, GameObjectPool<ProjectileController>> _projectilePool = new Dictionary<string, GameObjectPool<ProjectileController>>();
     public void RemoveProjectile(ProjectileController projectile)
@@ -53,6 +53,26 @@ public class OBJAttack : MonoBehaviour
         });
         _projectilePool.Add(_bullet.name + "(Clone)", pool);
         _curDmg = _dmg;
+        switch (_unitType)
+        {
+            case UnitType.Legend:
+                _multiAttack = Instantiate(Resources.Load<GameObject>("Prefab/Skill/MultiAttack"));
+                if (_multiAttack != null)
+                    _multiAttack.SetActive(false);
+                break;
+            case UnitType.Myth:
+                _slowAttack = Instantiate(Resources.Load<GameObject>("Prefab/Skill/SlowAttack"));
+                if (_slowAttack != null)
+                    _slowAttack.SetActive(false);
+                break;
+            case UnitType.God:
+                _allAttack = Instantiate(Resources.Load<GameObject>("Prefab/Skill/AllAttack"));
+                if (_allAttack != null)
+                    _allAttack.SetActive(false);
+                break;
+            default:
+                break;
+        }
     }
 
     void Update()
@@ -72,6 +92,49 @@ public class OBJAttack : MonoBehaviour
                 bullet.transform.rotation = _firePos.rotation;
                 _time = 0;
             }
+        }
+        switch (_unitType)
+        {
+            case UnitType.Legend:
+                _multiAttackTime += Time.deltaTime;
+                if(_multiAttackTime >= 3f && cols.Length > 0)
+                {
+                    _multiAttack.SetActive(true);
+                    _multiAttack.GetComponent<ParticleSystem>().Play();
+                    _multiAttackTime = 0f;
+                    _multiAttack.transform.position = cols[0].transform.position;
+                    Collider[] col = Physics.OverlapSphere(_multiAttack.transform.position, 5f, 1 << 3);
+                    if (col.Length > 0)
+                        for (int i = 0; i < col.Length; i++)
+                            col[i].GetComponent<MonHealth>().Damage(_curDmg + _curDmg * 1f * UIManager.Instance._ReinforcementLv);
+                }
+                break;
+            case UnitType.Myth:
+                _slowAttackTime += Time.deltaTime;
+                if(_slowAttackTime >= 10f && cols.Length > 0)
+                {
+                    _slowAttack.SetActive(true);
+                    _slowAttack.GetComponent<ParticleSystem>().Play();
+                    _slowAttackTime = 0f;
+                    cols[0].GetComponent<MonCtrl>().SetMoveSpeed(0f);
+                    cols[0].GetComponent<MonHealth>().Damage(_curDmg + _curDmg * 1f * UIManager.Instance._ReinforcementLv);
+                    _slowAttack.transform.position = cols[0].transform.position;
+                }
+                break;
+            case UnitType.God:
+                _allAttackTime += Time.deltaTime;
+                if (_allAttackTime >= 1f && cols.Length > 0)
+                {
+                    _allAttack.SetActive(true);
+                    _allAttack.GetComponent<ParticleSystem>().Play();
+                    _allAttackTime = 0f;
+                    Collider[] col = Physics.OverlapSphere(_allAttack.transform.position, _radius, 1 << 3);
+                    for (int i = 0; i < col.Length; i++)
+                            col[i].GetComponent<MonHealth>().Damage(_curDmg + _curDmg * 1f * UIManager.Instance._ReinforcementLv);
+                }
+                break;
+            default:
+                break;
         }
     }
     ProjectileController CreateProjectile()

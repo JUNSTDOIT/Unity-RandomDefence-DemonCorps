@@ -113,8 +113,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 706074929521061337}
-  - {fileID: 4705433768861278874}
   - {fileID: 5369272851194796227}
+  - {fileID: 4705433768861278874}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -177,7 +177,7 @@ MonoBehaviour:
   _dmg: 60
   _radius: 10
   _attackSpeed: 0.1
-  _projectileType: 0
+  _unitType: 1
 --- !u!1 &706074929521061318
 GameObject:
   m_ObjectHideFlags: 0
@@ -23692,7 +23692,7 @@ Transform:
   - {fileID: 4706942369944540706}
   - {fileID: 4707075383356214434}
   m_Father: {fileID: 706074929364308194}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &4864366769341637712
 ParticleSystem:
@@ -53005,7 +53005,7 @@ Transform:
   - {fileID: 5125898995622282379}
   - {fileID: 8039058285121190431}
   m_Father: {fileID: 706074929364308194}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7185340824224374138
 GameObject:

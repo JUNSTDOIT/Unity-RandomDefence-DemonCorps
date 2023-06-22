@@ -39,29 +39,71 @@ public class MonCtrl : MonoBehaviour
             _curMoveSpeed = _moveSpeed;
             _monHP.SetHP(10);
         }
-        if (((int)type + 1) == 2) // 몬스터2
+        else if (((int)type + 1) == 2) // 몬스터2
         {
             _moveSpeed = 10f;
             _curMoveSpeed = _moveSpeed;
             _monHP.SetHP(40);
         }
-        if (((int)type + 1) == 3) // 몬스터3
+        else if (((int)type + 1) == 3) // 몬스터3
         {
             _moveSpeed = 15f;
             _curMoveSpeed = _moveSpeed;
             _monHP.SetHP(160);
         }
-        if (((int)type + 1) == 4) // 몬스터4
+        else if (((int)type + 1) == 4) // 몬스터4
         {
             _moveSpeed = 10f;
             _curMoveSpeed = _moveSpeed;
             _monHP.SetHP(320);
         }
-        if (((int)type + 1) == 5) // 몬스터5
+        else if (((int)type + 1) == 5) // 몬스터5
+        {
+            _moveSpeed = 10f;
+            _curMoveSpeed = _moveSpeed;
+            _monHP.SetHP(640);
+        }
+        else if (((int)type + 1) == 6) // 몬스터5
         {
             _moveSpeed = 10f;
             _curMoveSpeed = _moveSpeed;
             _monHP.SetHP(64000);
+        }
+        else if (((int)type + 1) == 7) // 몬스터5
+        {
+            _moveSpeed = 10f;
+            _curMoveSpeed = _moveSpeed;
+            _monHP.SetHP(640);
+        }
+        else if (((int)type + 1) == 8) // 몬스터5
+        {
+            _moveSpeed = 10f;
+            _curMoveSpeed = _moveSpeed;
+            _monHP.SetHP(1280);
+        }
+        else if (((int)type + 1) == 9) // 몬스터5
+        {
+            _moveSpeed = 10f;
+            _curMoveSpeed = _moveSpeed;
+            _monHP.SetHP(2560);
+        }
+        else if (((int)type + 1) == 10) // 몬스터5
+        {
+            _moveSpeed = 10f;
+            _curMoveSpeed = _moveSpeed;
+            _monHP.SetHP(5120);
+        }
+        else if (((int)type + 1) == 11) // 몬스터5
+        {
+            _moveSpeed = 10f;
+            _curMoveSpeed = _moveSpeed;
+            _monHP.SetHP(10240);
+        }
+        else if (((int)type + 1) == 12) // 몬스터5
+        {
+            _moveSpeed = 10f;
+            _curMoveSpeed = _moveSpeed;
+            _monHP.SetHP(1024000);
         }
     }
 

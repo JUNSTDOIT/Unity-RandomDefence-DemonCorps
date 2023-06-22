@@ -24,6 +24,8 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     TMP_Dropdown _dropSellSelect;
     [SerializeField]
     Button _btnReinforcement;
+    [SerializeField]
+    Toggle _toggleSpeedUp;
     float _runTimeSec = 0;
     int _runTimeMin = 0;
     MonCtrl[] _mons;
@@ -66,9 +68,9 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     void Update()
     {
         RunTime();
-        GameResult();
         Money();
         Wave();
+        GameResult();
     }
     void RunTime()
     {
@@ -80,6 +82,10 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
             _runTimeSec = 0f;
             _runTimeMin++;
         }
+        if (_toggleSpeedUp.isOn)
+            Time.timeScale = 2f;
+        else
+            Time.timeScale = 0f;
     }
     void RandomSpawn()
     {
@@ -258,12 +264,17 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
             Debug.Log("게임오버");
             Time.timeScale = 0;
         }
-        else if (_wave == 6)
+        else if (_wave == 7 && _monCount < 601)
         {
             Debug.Log("게임오버");
             Time.timeScale = 0;
         }
-        else if (_wave == 5 && _monCount == 401)
+        else if (_wave == 13)
+        {
+            Debug.Log("게임오버");
+            Time.timeScale = 0;
+        }
+        else if (_wave == 12 && _monCount == 1202)
         {
             Debug.Log("게임승리");
             Time.timeScale = 0;

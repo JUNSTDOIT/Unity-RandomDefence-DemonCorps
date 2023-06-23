@@ -16,6 +16,14 @@ public class MonCtrl : MonoBehaviour
     //----------------------------------
     [Header("[ 다음 이동 타겟 웨이 포인트 인덱스..]"), SerializeField]
     int _nextWayptIdx = 1;
+    [SerializeField]
+    SkinnedMeshRenderer _renderer;
+    [SerializeField]
+    Shader _shaderAlpaBlending;
+    Shader _curshader;
+    float _skillTime = 1f;
+    bool _isSkill = false;
+    float _coolTime = 10f;
 
     float _time = 0f;
 
@@ -37,73 +45,74 @@ public class MonCtrl : MonoBehaviour
         {
             _moveSpeed = 10f;
             _curMoveSpeed = _moveSpeed;
-            _monHP.SetHP(10);
+            _monHP.SetHP(15);
         }
         else if (((int)type + 1) == 2) // 몬스터2
         {
             _moveSpeed = 10f;
             _curMoveSpeed = _moveSpeed;
-            _monHP.SetHP(40);
+            _monHP.SetHP(30);
         }
         else if (((int)type + 1) == 3) // 몬스터3
         {
             _moveSpeed = 15f;
             _curMoveSpeed = _moveSpeed;
-            _monHP.SetHP(160);
+            _monHP.SetHP(60);
         }
         else if (((int)type + 1) == 4) // 몬스터4
         {
-            _moveSpeed = 10f;
+            _moveSpeed = 5f;
             _curMoveSpeed = _moveSpeed;
-            _monHP.SetHP(320);
+            _monHP.SetHP(360);
         }
         else if (((int)type + 1) == 5) // 몬스터5
         {
             _moveSpeed = 10f;
             _curMoveSpeed = _moveSpeed;
-            _monHP.SetHP(640);
+            _monHP.SetHP(240);
         }
-        else if (((int)type + 1) == 6) // 몬스터5
+        else if (((int)type + 1) == 6) // 몬스터6
         {
             _moveSpeed = 10f;
             _curMoveSpeed = _moveSpeed;
-            _monHP.SetHP(64000);
+            _monHP.SetHP(24000);
+            _curshader = _renderer.material.shader;
         }
-        else if (((int)type + 1) == 7) // 몬스터5
+        else if (((int)type + 1) == 7) // 몬스터7
+        {
+            _moveSpeed = 5f;
+            _curMoveSpeed = _moveSpeed;
+            _monHP.SetHP(1440);
+        }
+        else if (((int)type + 1) == 8) // 몬스터8
         {
             _moveSpeed = 10f;
             _curMoveSpeed = _moveSpeed;
-            _monHP.SetHP(640);
+            _monHP.SetHP(960);
         }
-        else if (((int)type + 1) == 8) // 몬스터5
+        else if (((int)type + 1) == 9) // 몬스터9
+        {
+            _moveSpeed = 15f;
+            _curMoveSpeed = _moveSpeed;
+            _monHP.SetHP(1920);
+        }
+        else if (((int)type + 1) == 10) // 몬스터10
         {
             _moveSpeed = 10f;
             _curMoveSpeed = _moveSpeed;
-            _monHP.SetHP(1280);
+            _monHP.SetHP(3840);
         }
-        else if (((int)type + 1) == 9) // 몬스터5
+        else if (((int)type + 1) == 11) // 몬스터11
         {
-            _moveSpeed = 10f;
+            _moveSpeed = 5f;
             _curMoveSpeed = _moveSpeed;
-            _monHP.SetHP(2560);
+            _monHP.SetHP(7680);
         }
-        else if (((int)type + 1) == 10) // 몬스터5
+        else if (((int)type + 1) == 12) // 몬스터12
         {
-            _moveSpeed = 10f;
+            _moveSpeed = 5f;
             _curMoveSpeed = _moveSpeed;
-            _monHP.SetHP(5120);
-        }
-        else if (((int)type + 1) == 11) // 몬스터5
-        {
-            _moveSpeed = 10f;
-            _curMoveSpeed = _moveSpeed;
-            _monHP.SetHP(10240);
-        }
-        else if (((int)type + 1) == 12) // 몬스터5
-        {
-            _moveSpeed = 10f;
-            _curMoveSpeed = _moveSpeed;
-            _monHP.SetHP(1024000);
+            _monHP.SetHP(600000);
         }
     }
 
@@ -142,6 +151,34 @@ public class MonCtrl : MonoBehaviour
                 MonsterManager.Instance.RemoveMonster(this);
             }
         }
+        if(_type == MonsterManager.MonsterType.Lv6)
+        {
+            if (!_isSkill)
+                _coolTime -= Time.deltaTime;
+            if(_coolTime <= 0f && !_isSkill)
+            {
+                _isSkill = true;
+                _renderer.material.shader = _shaderAlpaBlending;
+                this.gameObject.layer = 0;
+                Invoke("SkillCool", _skillTime);
+            }
+        }
+        if(_type == MonsterManager.MonsterType.Lv12)
+        {
+            _coolTime -= Time.deltaTime;
+            if(_coolTime <= 0f)
+            {
+                _monHP.HPUP(10000);
+                _coolTime = 10f;
+            }
+        }
+    }
+    void SkillCool()
+    {
+        _renderer.material.shader = _curshader;
+        this.gameObject.layer = 3;
+        _coolTime = 10f;
+        _isSkill = false;
     }
     private void OnTriggerEnter(Collider other)
     {

@@ -21,6 +21,7 @@ public class MonsterManager : SingletonMonoBehaviour<MonsterManager>
         Lv12,
         Max
     }
+    [SerializeField]
     GameObject[] _monPrefabs;
     Dictionary<MonsterType, GameObjectPool<MonCtrl>> _monPool = new Dictionary<MonsterType, GameObjectPool<MonCtrl>>();
     public void RemoveMonster(MonCtrl mon)
@@ -42,7 +43,7 @@ public class MonsterManager : SingletonMonoBehaviour<MonsterManager>
                 obj.SetActive(false); // 엑티브 비활성화
                 obj.transform.SetParent(transform); // 위치는 부모의 위치
                 var mon = obj.GetComponent<MonCtrl>(); // mon변수에 MonsterController 할당
-                mon.InitMonster((MonsterType)type); // type별 몬스터 스텟 할당
+                //mon.InitMonster((MonsterType)type); // type별 몬스터 스텟 할당
                 return mon;
             });
             _monPool.Add((MonsterType)i, pool); // Pool 생성

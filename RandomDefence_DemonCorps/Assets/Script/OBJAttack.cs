@@ -77,11 +77,15 @@ public class OBJAttack : MonoBehaviour
 
     void Update()
     {
+        Attack();
+    }
+    void Attack()
+    {
         Collider[] cols = Physics.OverlapSphere(_body.position, _radius, 1 << 3);
-        if(cols.Length > 0)
+        if (cols.Length > 0)
         {
             _time += Time.deltaTime;
-            if(_time > _attackSpeed)
+            if (_time > _attackSpeed)
             {
                 _dmg = _curDmg + _curDmg * 0.25f * UIManager.Instance._ReinforcementLv;
                 _body.LookAt(cols[0].transform);
@@ -97,7 +101,7 @@ public class OBJAttack : MonoBehaviour
         {
             case UnitType.Legend:
                 _multiAttackTime += Time.deltaTime;
-                if(_multiAttackTime >= 3f && cols.Length > 0)
+                if (_multiAttackTime >= 3f && cols.Length > 0)
                 {
                     _multiAttack.SetActive(true);
                     _multiAttack.GetComponent<ParticleSystem>().Play();
@@ -111,7 +115,7 @@ public class OBJAttack : MonoBehaviour
                 break;
             case UnitType.Myth:
                 _slowAttackTime += Time.deltaTime;
-                if(_slowAttackTime >= 10f && cols.Length > 0)
+                if (_slowAttackTime >= 10f && cols.Length > 0)
                 {
                     _slowAttack.SetActive(true);
                     _slowAttack.GetComponent<ParticleSystem>().Play();
@@ -130,7 +134,7 @@ public class OBJAttack : MonoBehaviour
                     _allAttackTime = 0f;
                     Collider[] col = Physics.OverlapSphere(_allAttack.transform.position, _radius, 1 << 3);
                     for (int i = 0; i < col.Length; i++)
-                            col[i].GetComponent<MonHealth>().Damage(_curDmg + _curDmg * 1f * UIManager.Instance._ReinforcementLv);
+                        col[i].GetComponent<MonHealth>().Damage(_curDmg + _curDmg * 1f * UIManager.Instance._ReinforcementLv);
                 }
                 break;
             default:

@@ -13,6 +13,7 @@ public class MonHealth : MonoBehaviour
     float _hp;
     bool _isDie = false;
     public bool _IsDie => _isDie;
+    public void HPUP(int hpup) => _hp += hpup;
     public void SetHP(int hp)
     {
         _hp = hp;
@@ -31,7 +32,12 @@ public class MonHealth : MonoBehaviour
         _isDie = true;
         GetComponent<Animator>().SetBool("Die", true);
         GetComponent<BoxCollider>().enabled = false;
-        UIManager.Instance.GetMoney();
+        if (GetComponent<MonCtrl>()._Type == MonsterManager.MonsterType.Lv6)
+            UIManager.Instance.GetMoney(200);
+        else if(GetComponent<MonCtrl>()._Type == MonsterManager.MonsterType.Lv12)
+            UIManager.Instance.GetMoney(200);
+        else
+            UIManager.Instance.GetMoney(1);
         _bloodFX.SetActive(true);
     }
     void Update()

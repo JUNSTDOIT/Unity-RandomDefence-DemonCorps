@@ -26,6 +26,18 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     Button _btnReinforcement;
     [SerializeField]
     Toggle _toggleSpeedUp;
+    [SerializeField]
+    GameObject _panelGameLose;
+    [SerializeField]
+    Button _btnRestartGame;
+    [SerializeField]
+    Button _btnLobbyScene;
+    [SerializeField]
+    GameObject _panelGameWin;
+    [SerializeField]
+    TMP_InputField _inputName;
+    [SerializeField]
+    Button _btnOK;
     float _runTimeSec = 0;
     int _runTimeMin = 0;
     MonCtrl[] _mons;
@@ -42,9 +54,9 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     public void MonCount() => _monCount++;
     public int _ReinforcementLv => _reinforcementLv;
 
-    public void GetMoney()
+    public void GetMoney(int money)
     {
-        _money++;
+        _money += money;
     }
     void Start()
     {
@@ -62,6 +74,9 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
         _dropSellSelect.AddOptions(_dropOption);
         _btnReinforcement.onClick.AddListener(Reinforcement);
         _btnSell.onClick.AddListener(Sell);
+        _btnRestartGame.onClick.AddListener(GameManager.Instance.GameRestart);
+        _btnLobbyScene.onClick.AddListener(GameManager.Instance.LobbyScene);
+        _btnOK.onClick.AddListener(RankRegistration);
     }
 
 
@@ -82,10 +97,10 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
             _runTimeSec = 0f;
             _runTimeMin++;
         }
-        if (_toggleSpeedUp.isOn)
+        if (_toggleSpeedUp.isOn && !GameManager.Instance._GameStop)
             Time.timeScale = 2f;
-        else
-            Time.timeScale = 0f;
+        else if(!_toggleSpeedUp.isOn && !GameManager.Instance._GameStop)
+            Time.timeScale = 1f;
     }
     void RandomSpawn()
     {
@@ -262,22 +277,31 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
         if (_mons != null && _mons.Length > 100)
         {
             Debug.Log("게임오버");
-            Time.timeScale = 0;
+            _panelGameLose.SetActive(true);
+            GameManager.Instance.GameOver();
         }
-        else if (_wave == 7 && _monCount < 601)
+        else if (_wave == 7 && _monCount < 501)
         {
             Debug.Log("게임오버");
-            Time.timeScale = 0;
+            _panelGameLose.SetActive(true);
+            GameManager.Instance.GameOver();
         }
         else if (_wave == 13)
         {
             Debug.Log("게임오버");
-            Time.timeScale = 0;
+            _panelGameLose.SetActive(true);
+            GameManager.Instance.GameOver();
         }
-        else if (_wave == 12 && _monCount == 1202)
+        else if (_wave == 12 && _monCount == 1002)
         {
             Debug.Log("게임승리");
-            Time.timeScale = 0;
+            _panelGameWin.SetActive(true);
+            GameManager.Instance.GameOver();
         }
+    }
+    void RankRegistration()
+    {
+        //인풋필드의 이름을 파베서버에 저장해 랭킹을 구현
+        GameManager.Instance.LobbyScene();
     }
 }

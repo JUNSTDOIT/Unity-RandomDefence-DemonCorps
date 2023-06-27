@@ -9,6 +9,11 @@ public class TitleUICtrl : MonoBehaviour
     Button _btnGoLobbyScene;
     void Start()
     {
-        _btnGoLobbyScene.onClick.AddListener(GameManager.Instance.LobbyScene);
+        _btnGoLobbyScene.onClick.AddListener(LobbyScene);
+    }
+    void LobbyScene()
+    {
+        AudioManager.Instance.Click();
+        GameManager.Instance.LobbyScene();
     }
 }

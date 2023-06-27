@@ -39,6 +39,7 @@ public class GameUICtrl : MonoBehaviour
     }
     void ReStart()
     {
+        AudioManager.Instance.Click();
         GameManager.Instance.GameRestart();
         _bgm = _sliderBGM.value;
         PlayerPrefs.SetFloat("BGM", _bgm);
@@ -47,6 +48,7 @@ public class GameUICtrl : MonoBehaviour
     }
     void Home()
     {
+        AudioManager.Instance.Click();
         GameManager.Instance.LobbyScene();
         _bgm = _sliderBGM.value;
         PlayerPrefs.SetFloat("BGM", _bgm);
@@ -55,6 +57,7 @@ public class GameUICtrl : MonoBehaviour
     }
     void Continue()
     {
+        AudioManager.Instance.OptionOff();
         GameManager.Instance.GameContinue();
         _panelSetting.SetActive(false);
         _bgm = _sliderBGM.value;
@@ -64,6 +67,7 @@ public class GameUICtrl : MonoBehaviour
     }
     void Setting()
     {
+        AudioManager.Instance.OptionOn();
         _panelSetting.SetActive(true);
         GameManager.Instance.GameStop();
     }

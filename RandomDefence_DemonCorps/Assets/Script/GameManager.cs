@@ -20,6 +20,7 @@ public class GameManager : DontDestroy<GameManager>
         Time.timeScale = 1;
         _gameOver = false;
         _gameStop = false;
+        AudioManager.Instance.LobbyBGM();
         SceneManager.LoadScene(1);
     }
     public void GameStop()
@@ -32,6 +33,7 @@ public class GameManager : DontDestroy<GameManager>
         Time.timeScale = 1;
         _gameOver = false;
         _gameStop = false;
+        AudioManager.Instance.GameBGM();
         SceneManager.LoadScene(2);
     }
     public void GameContinue()

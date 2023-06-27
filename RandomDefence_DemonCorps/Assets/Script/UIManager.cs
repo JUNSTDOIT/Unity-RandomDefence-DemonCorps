@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using BackEnd;
+using System.Threading.Tasks;
 
 public class UIManager : SingletonMonoBehaviour<UIManager>
 {
@@ -98,7 +100,7 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
             _runTimeMin++;
         }
         if (_toggleSpeedUp.isOn && !GameManager.Instance._GameStop)
-            Time.timeScale = 2f;
+            Time.timeScale = 10f;
         else if(!_toggleSpeedUp.isOn && !GameManager.Instance._GameStop)
             Time.timeScale = 1f;
     }
@@ -108,10 +110,12 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
             return;
         else
         {
+            AudioManager.Instance.Click();
             _money -= 10;
             _randSpawn = Random.Range(0, 100000);
             if (_randSpawn >= 0 && _randSpawn < 19)
             {
+                AudioManager.Instance.HighTier();
                 Debug.Log("1");
                 GameObject nomal = Instantiate(_units[8]);
                 nomal.transform.position = new Vector3(0f, 0.5f, 0f);
@@ -177,6 +181,7 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
             return;
         else
         {
+            AudioManager.Instance.Click();
             _money -= _reinforcementCost;
             _reinforcementLv++;
             _reinforcementCost += 2;
@@ -188,6 +193,7 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
         _fieldUnits = FindObjectsOfType<OBJAttack>();
         if(_fieldUnits != null)
         {
+            AudioManager.Instance.UnitSell();
             for (int i = 0; i < _fieldUnits.Length; i++)
             {
                 var results = _fieldUnits[i].name.Split('.');
@@ -294,14 +300,34 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
         }
         else if (_wave == 12 && _monCount == 1002)
         {
+            AudioManager.Instance.EndingBGM();
             Debug.Log("게임승리");
             _panelGameWin.SetActive(true);
             GameManager.Instance.GameOver();
         }
     }
+    async void Test()
+    {
+        await Task.Run(() =>
+        {
+            BackendLogin.Instance.CustomSignUp(_inputName.text, _inputName.text);
+            BackendLogin.Instance.CustomLogin(_inputName.text, _inputName.text);
+            BackendLogin.Instance.UpdateNickname(_inputName.text);
+            //BackendLogin.Instance.CustomLogin("user1", "1234");
+            BackendRank.Instance.RankInsert(1000);
+            //BackendRank.Instance.RankGet();
+            Debug.Log("테스트를 종료합니다.");
+        });
+    }
     void RankRegistration()
     {
-        //인풋필드의 이름을 파베서버에 저장해 랭킹을 구현
+        var bro = Backend.Initialize(true);
+        if (bro.IsSuccess())
+            Debug.Log("초기화 성공 : " + bro);
+        else
+            Debug.Log("초기화 실패 : " + bro);
+        Test();
         GameManager.Instance.LobbyScene();
+        AudioManager.Instance.Click();
     }
 }

@@ -29,6 +29,7 @@ public class MonHealth : MonoBehaviour
     }
     void Die()
     {
+        AudioManager.Instance.MonPain();
         _isDie = true;
         GetComponent<Animator>().SetBool("Die", true);
         GetComponent<BoxCollider>().enabled = false;
